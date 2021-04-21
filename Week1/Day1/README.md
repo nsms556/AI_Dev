@@ -2,14 +2,14 @@
 
 ## 목록
 - 1 - [리스트 원소 두 개의 합](https://github.com/nsms556/AI_Dev/blob/main/Week1/Day1/train1.py)
-- 2-1 - 리스트에 새로운 요소 삽입
-- 2-2 - 리스트에서 원소 찾기
-- 3 - 이진 탐색 구현
-- 4 - 피보나치 순열 구현(Recursive)
-- 5 - 재귀적 이진 탐색 구현
+- 2-1 - [리스트에 새로운 요소 삽입](https://github.com/nsms556/AI_Dev/blob/main/Week1/Day1/train2-1.py)
+- 2-2 - [리스트에서 원소 찾기](https://github.com/nsms556/AI_Dev/blob/main/Week1/Day1/train2-2.py)
+- 3 - [이진 탐색 구현]((https://github.com/nsms556/AI_Dev/blob/main/Week1/Day1/train3.py)
+- 4 - [피보나치 순열 구현(Recursive)](https://github.com/nsms556/AI_Dev/blob/main/Week1/Day1/train4.py)
+- 5 - [재귀적 이진 탐색 구현](https://github.com/nsms556/AI_Dev/blob/main/Week1/Day1/train5.py)
 - 6 - 실습 X
-- 7 - 연결 리스트 순회 구현
-- 8 - 연결 리스트 노드 삭제
+- 7 - [연결 리스트 순회 구현](https://github.com/nsms556/AI_Dev/blob/main/Week1/Day1/train7.py)
+- 8 - [연결 리스트 노드 삭제](https://github.com/nsms556/AI_Dev/blob/main/Week1/Day1/train8.py)
 - 9 - Dummy head를 가지는 연결 리스트 노드 삭제
 - 10-1 - 양방향 연결 리스트 역방향 순회
 - 10-2 - 양방향 연결 리스트 노드 삽입
