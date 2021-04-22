@@ -19,4 +19,4 @@
 - lv1-1 - [나머지 한 점](https://github.com/nsms556/AI_Dev/blob/main/Week1/Day1/lv1-1.py)
 - lv1-2 - [운송 트럭](https://github.com/nsms556/AI_Dev/blob/main/Week1/Day1/lv1-2.py)
 - lv2-1 - [카펫](https://github.com/nsms556/AI_Dev/blob/main/Week1/Day1/lv2-1.py)
-- lv2-2 - 사탕 담기
+- lv2-2 - [사탕 담기](https://github.com/nsms556/AI_Dev/blob/main/Week1/Day1/lv2-2.py)

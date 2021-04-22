@@ -1,0 +1,56 @@
+class Node:
+
+    def __init__(self, item):
+        self.data = item
+        self.left = None
+        self.right = None
+
+
+    def inorder(self):
+        traversal = []
+        if self.left:
+            traversal += self.left.inorder()
+        traversal.append(self.data)
+        if self.right:
+            traversal += self.right.inorder()
+        return traversal
+
+
+    def postorder(self):
+        traversal = []
+        
+        if self.left:
+            traversal += self.left.postorder()
+        if self.right:
+            traversal += self.right.postorder()
+        traversal.append(self.data)
+        
+        return traversal
+
+class BinaryTree:
+    def __init__(self, r):
+        self.root = r
+
+    def inorder(self):
+        if self.root:
+            return self.root.inorder()
+        else:
+            return []
+
+    def postorder(self):
+        if self.root:
+            return self.root.postorder()
+        else:
+            return []
+
+
+def solution(x):
+    return 0
+
+a = BinaryTree(Node(1))
+a.root.left = Node(2)
+a.root.right = Node(3)
+a.root.left.left = Node(5)
+
+print(a.inorder())
+print(a.postorder())
