@@ -15,6 +15,9 @@
 - 21 - [이진 탐색 트리에서 노드의 삭제 연산 구현](https://github.com/nsms556/AI_Dev/blob/main/Week1/Day2/train21.py)
 - 22 - [최대 힙에 새로운 원소 삽입](https://github.com/nsms556/AI_Dev/blob/main/Week1/Day2/train22.py)
 - 23 - [최대 힙에서의 원소 삭제](https://github.com/nsms556/AI_Dev/blob/main/Week1/Day2/train23.py)
-
+- lv1-1 - [예산 소팅](https://github.com/nsms556/AI_Dev/blob/main/Week1/Day2/lv1-1.py)
+- lv1-2 - [기능 개발](https://github.com/nsms556/AI_Dev/blob/main/Week1/Day2/lv1-2.py)
+- lv2-1 - [가장 큰 수](https://github.com/nsms556/AI_Dev/blob/main/Week1/Day2/lv2-1.py)
+- lv2-2 - [최솟값 만들기](https://github.com/nsms556/AI_Dev/blob/main/Week1/Day2/lv2-2.py)
 
 
