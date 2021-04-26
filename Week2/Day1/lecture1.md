@@ -24,5 +24,5 @@
   - M x N 선형시스템 정리
     - Linear Equation <-> Row
     - A는 M x N 행렬
-    - b는 M x 1 행렬
-    - x는 N x 1 행렬
+    - b는 M x 1 벡터
+    - x는 N x 1 벡터
