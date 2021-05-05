@@ -10,7 +10,7 @@
 - 3 : [LU분해](https://github.com/nsms556/AI_Dev/blob/main/Week2/Day2/lecture3.md)
 - 4 : [행렬연산과 선형조합](https://github.com/nsms556/AI_Dev/blob/main/Week2/Day2/lecture4.md)
 - 5 : [좌표계 변환](https://github.com/nsms556/AI_Dev/blob/main/Week2/Day2/lecture5.md)
-- 6 : [선형변환]((https://github.com/nsms556/AI_Dev/blob/main/Week2/Day2/lecture6.md))
+- 6 : [선형변환]((https://github.com/nsms556/AI_Dev/blob/main/Week2/Day2/lecture6.md)
 
 ### Day3 - 벡터
 - 7 : [벡터와 직교분해](https://github.com/nsms556/AI_Dev/blob/main/Week2/Day3/lecture7.md)
