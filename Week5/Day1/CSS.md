@@ -26,3 +26,27 @@
     - 인라인, 미디어 타입, 중요성, 셀렉터 특정, 규칙 순서, 상속, 프로퍼티 정의로 분류
     - 사용되는 출력 장치에 따라 다른 스타일을 적용 가능
       
+## 3. 메모
+  - 내부 스타일 시트
+    - ``` HTML
+      <style> ...
+        <HTML Tag name> : { property : value; property2 : value2; ... }
+        ...
+      </style>
+      ```
+  - 속성
+    - color : 글자색
+    - background-color : 글자 배경색
+    - background-image : 배경 이미지
+      - 값 : `url("example/image.png")`
+    - opacity : 불투명도
+
+  - 폰트
+    - 구글 웹폰트
+      - \<style>에 @import url 추가
+      - css에 font-family를 통하여 적용
+    - 로컬 서버 폰트
+      - \<style>에 @font-face 추가
+        - @font-face {font-family:폰트 이름; src:폰트 경로 format('truetype');}
+      - css에 font-family를 통하여 적용
+      
