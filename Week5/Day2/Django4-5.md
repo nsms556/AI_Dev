@@ -36,7 +36,7 @@
     - 새로운 DB를 위해서는 migrate 진행 필요
     - 과정
       ```
-      python manage.py makemigration <App 이름>
+      python manage.py makemigrations <App 이름>
       
       python manage.py migrate
       ```
