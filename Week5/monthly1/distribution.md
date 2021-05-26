@@ -1,4 +1,4 @@
-# [Monthly Project 1]
+# [Monthly Project 1] 배포 환경
 
 ## 서버
   - Nvidia Jetson Nano Dev Kit
