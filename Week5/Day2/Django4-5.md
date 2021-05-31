@@ -9,7 +9,7 @@
     - 쿼리(질의)를 통해 데이터를 처리
   - ORM (Object Relational Mapping)
     - 객체와 관계형 DB의 데이터를 자동으로 매핑
-    - Django에 모듈이 내장되어 있어 SQL 없이 DB 핸들링 가능
+    - Django에 모듈이 내장되어 있어 SQL 쿼리를 직접 작성할 필요 없이 DB 핸들링 가능
 
 ## 2. Django ORM
   - App의 models&#46;py 파일에 파이썬 클래스 형태로 선언
