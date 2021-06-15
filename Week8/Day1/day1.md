@@ -64,10 +64,13 @@
   - 문제 단순화
     - 숫자 5에 대한 식별 문제로 간소화하여 이진 분류기 모델 적용
   - `AttributeError: 'str' object has no attribute 'decode'` 
-    - solver='liblinear' 파라미터 추가하여 해결
+    - 이진 분류기인 경우 solver='liblinear' 파라미터 추가하여 해결
+    - 다중 분류인 경우 solver를 'newton-cg'로 변경하여 해결
   - 클래스간 데이터 양이 불균형인 경우 정확도는 좋은 지표 X
     - 오차 행렬 (Confusion Matrix)
       - `sklearn.model_selection.cross_val_predict()`
-    - 정밀도 = TP / (TP + FP)
-    - 재현율 = TP / (TP + FN)
-    
+    - 정밀도(Precision) = TP / (TP + FP)
+    - 재현율(Recall) = TP / (TP + FN)
+  - Data Augmentation
+    - 주어진 데이터를 조작하여 데이터의 양을 부풀리는 기술
+    - 
