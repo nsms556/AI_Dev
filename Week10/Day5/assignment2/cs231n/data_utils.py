@@ -1,7 +1,7 @@
 import pickle as pickle
 import numpy as np
 import os
-from scipy.misc import imread
+from imageio import imread
 
 
 def load_CIFAR_batch(filename):
