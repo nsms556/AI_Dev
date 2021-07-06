@@ -21,3 +21,15 @@
         - 200곡 리스트에서 해당 id 곡이 나온 횟수를 value로
         - 곡 id를 key로 하는 dict를 생성
         - dict를 Counter로 변경 후 플레이리스트에 많이 담긴 순서대로 최대 200곡 리스트로 변경
+  - 추천 아이템을 담을 리스트 생성 (answers)
+  - question 파일을 읽어서 순서대로 (q)
+    - 빈 Counter 생성 (genre_counter)
+    - 곡 목록을 읽어서
+      - 해당 곡의 장르를 genre_counter에 업데이트
+    - genre_counter에서 가장 많이 나온 장를 보관 (top_genre)
+    - top_genre가 있다면
+      - cur_songs 에 song_mp_per_genre에서 top_genre의 곡리스트를 저장
+      - 없으면
+        - 200 곡 리스트를 cur_songs 에 저장
+    - answers 에 q의 id, cur_songs, tags를 dict 형태로 만들어서 추가
+  - answers 를 json으로 export
