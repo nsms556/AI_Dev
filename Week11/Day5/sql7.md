@@ -1,0 +1,73 @@
+# [Week11 - Day5] SQL 7
+
+## 1. 트랜잭션
+  - 하나씩 실행되어야 하는 SQL들을 묶어서 하나의 작업처럼 처리하는 방법
+    - DDL, DML 중 레코드를 추가/수정/삭제한 것에만 의미가 있음
+    - SELECT는 트랜잭션 필요 X
+    - BEGIN/END, BEGIN/COMMIT 사이에 해당 SQL 사용
+    - ROLLBACK
+  - 계좌 이체
+    - 인출과 입금
+    - 입금과 인출을 동시에 시도
+    - 입금은 안됐는데 인출은 되버리면?
+    - 입금과 인출이 같이 성공하거나 같이 실패해야함 -> Atomic
+  - autocommit
+    - True
+      - 모든 레코드 추가/수정/삭제가 바로 DB에 반영 -> Commit
+      - 특정 작업을 트랜잭션으로 묶으려면 BEGIN/END/ROLLBACK으로 처리
+    - false
+      - 모든 레코드 추가/수정/삭제 작업이 COMMIT 호출 전까지 반영 X
+  - 방식
+    - Colab
+      - 기본 설정은 Autocommit = True
+      - 바꾸려면 BEGIN/END/COMMIT/ROLLBACK 사용
+    - psycopg2
+      - autocommit 파라미터를 통해 조절 가능
+      - True로 설정시 PostgreSQL과 동일
+      - False로 설정시 커넥션 객체의 .commit(), .rollback() 함수로 트랜잭션 조절 가능
+  - DELETE FROM vs TRUNCATE
+    - DELETE
+      - 테이블에서 모든 레코드를 삭제
+      - WHERE를 통해 조건을 지정 가능
+    - TRUNCATE
+      - DELETE 보다 속도가 빠름
+      - 전체 테이블의 내용 삭제에는 여러모로 유리
+      - WHERE 사용 불가
+      - 트랜잭션 적용 불가
+
+## 2. 고급 문법
+  - 유용한 키워드
+    - UNION
+      - 여러개의 테이블들이나 SELECT 결과를 하나의 결과로 통합
+      - UNION ALL - 중복 제거 X
+    - EXCEPT
+      - 하나의 SELECT 결과에서 다른 SELECT 결과를 제외
+    - INTERSECT
+      - 여러 개의 SELECT 결과에서 같은 레코드를 탐색
+    - COALESCE
+      - 표현식들을 순서대로 탐색하여 NULL이 아닌 것이 나오면 리턴, 안나오면 NULL을 리턴
+      - NULL을 다른 값으로 변환할 때 사용
+    - NULLIF
+      - 파라미터끼리 값이 같으면 NULL을 리턴
+    - LISTAGG
+      - GROUP BY에서 사용되는 Aggregate 함수 중 하나
+      - 여러 행의 컬럼 값을 하나로 합치기
+      - LISTAGG(column, string)
+        - column의 데이터들 사이에 string 끼워넣으면서 연결
+    - WINDOW
+      - LAG
+        - 명시된 값을 기준으로 이전 레코드의 값 반환
+        - 유저 세션을 시간순으로 봤을때
+          - 이전 세션의 채널 탐색
+          - 다음 세션의 채널 탐색
+      - ROW_NUMBER OVER
+      - SUM OVER
+      - FIRST_VALUE, LAST_VALUE
+    - JSON 파싱
+      - JSON의 포맷을 아는 경우에만 사용 가능
+        - JSON String을 입력받아 특정 필드의 값을 추출
+      - JSON_EXTRACT_PATH_TEXT
+
+## 3. 마무리
+  - SQL은 모든 데이터 직군에 필요
+  - 웨어하우스와 프로덕션 DB의 차이
