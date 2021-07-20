@@ -1,0 +1,157 @@
+# [Week12 - Day2] Big Data 2
+
+## 1. 빅데이터의 정의와 예
+  - 정의
+    - 서버 한대로 처리할 수 없는 규모의 데이터
+      - 2012.04 아마존 클라우드 컨퍼런스 - 존 라우저 - 분산환경이 필요한가
+    - 기존 SW로 처리할 수 없는 규모의 데이터
+      - 기존 SW : 오라클, MySQL 등 관계형 DB
+        - 분산환경 염두 X
+        - Scale-Up 접근법 - 메모리 추가, CPU 추가, 디스크 추가
+    - 4V(Volume, Velocity, Variety, Varacity)
+      - 대용량, 처리속도, 구조화, 품질
+  - EX 
+    - 디바이스 데이터
+      - 모바일
+      - 스마트 TV
+      - IoT
+      - 네크워크 디바이스
+    - 웹
+      - 수십조 개의 웹페이지
+      - 이 중에서 중요한 페이지를 찾고 인덱싱하는 것은 엄청난 크기의 데이터 수집과 계산이 필요
+      - 사용자 검색어와 클릭 정보 자체로도 엄청난 대용량
+        - 마이닝을 통해 개인화, 별도 서비스 개발
+
+## 2. Hadoop
+  - 대용량 처리기술
+    - 분산 환경 기반
+    - Fault Tolerance
+      - 일부 서버가 멈춰도 전체 시스템은 동작
+    - 확장이 용이해야 함
+      - Scale Out
+  - 등장
+    - 구글랩 발표 논문에 기반해 만든 오픈소스 프로젝트
+    - 시작은 Nutch라는 검색엔진의 하위 프로젝트
+      - 2006년 분리
+    - 크게 두 개의 서브 시스템으로 구현
+      - HDFS : 분산 파일 시스템
+      - MapReduce : 분산 컴퓨팅 시스템
+        - 새로운 프로그래밍 방식으로 대용량 데이터 처리의 효율에 중점
+        - 작업에 따라 프로그래밍이 너무 복잡
+        - MapReduce로 구현된 SQL 언어들이 다시 주목
+        - 기본적으로 배치 작업에 최적화 -> 실시간 작업에 부적합
+  - 발전
+    - 1.0
+      - HDFS 위에 MapReduce 시스템을 가동
+    - 2.0
+      - 분산처리 시스템으로 변화 -> 윗단에 앱레이어를 얹음
+  - HDFS : 분산 파일 시스템
+    - 데이터를 블록단위로 저장
+      - 기본 128 MB
+    - 블록 복제 방식
+      - 각 블록은 3군데 중복 저장
+      - Fault Tolerance 보장
+  - 분산 컴퓨팅 시스템
+    - Hadoop 1.0
+      - 하나의 잡 트래커, 다수의 태스크 트래커
+      - 잡 트래커가 다수의 태스크 트래커에 작업을 분배
+    - Hadoop 2.0
+      - 클라이언트, 리소스 매니저, 노드 매니저, 컨테이너로 역할 세분화
+  - 시스템 구성
+    - 하둡 -> 데이터 웨어하우스
+    - 워크플로우 관리 -> Airflow
+  - 1.0 vs 2.0
+    - 2.0 -> YARN
+
+## 3. Spark
+  - 등장
+    - 버클리 대학의 AMPLab -> 아파치 오픈소스 프로젝트로 시작
+    - 하둡의 뒤를 잇는 2세대 빅데이터 기술
+      - Scala로 작성
+    - MapReduce의 단점을 대폭 개선
+      - Python Pandas와 유사
+    - 현재는 버전 3
+      - Scala, Java, Python3로 가능
+      - 머신 러닝 관련해서 많은 개선 - GPU 포함
+  - vs MapReduce
+    - Spark : 메모리 기반
+      - 메모리가 부족하면 디스크 사용
+      - MapReduce : 디스크 기반
+    - MapReduce : 하둡 위에서만 동작
+      - Spark : YARN 이외에 다른 환경 지원
+    - Spark : 다양한 방식의 컴퓨팅 지원
+      - 배치, 스트리밍, SQL, ML, 그래프 분석
+  - 구조
+    - 드라이버 프로그램 존재
+    - 하둡 2.0 이상의 앱 레이어에서 동작
+  - 구성
+    - Spark Core
+    - Spark SQL
+    - SparkStreaming
+    - MLlib
+    - SparkGraph
+  - 프로그래밍 개념
+    - RDD (Resilient Distributed Dataset)
+      - 로우레벨 API
+      - 복잡함
+    - Dataframe & Dataset
+      - 하이레벨 API
+      - SparkSQL에서 사용
+    - PySpark
+
+## 4. Spark VS Pandas
+  - Pandas
+    - 파이썬 데이터 분석에서 가장 기본이 되는 모듈 중 하나
+      - matplotlib, scikit-learn 등 다른 파이썬 모듈과 같이 사용
+    - 소규모의 구조화된 데이터를 다루는데 최적
+      - 한 대의 서버에서 다룰 수 있는 데이터로 크기에 제약
+      - 병렬 처리 X
+    - 가능한 작업
+      - 구조화된 데이터의 입출력
+      - 다양한 통계 출력
+      - 데이터 클리닝 -> 데이터 전처리
+      - 시각화
+    - 데이터 구조
+      - DataFrame
+      - Series
+      - 입력 DataFrame을 원하는 결과 DataFrame으로 계속 변환
+
+## 5. Dataframe, Dataset, RDD
+  - Spark 세션
+    - Spark 프로그램의 시작
+    - 세션을 통해 다양한 기능을 사용
+      - Spark Context, Hive Context, SQL Context
+  - 데이터 구조 : 크게 3가지
+    - RDD
+      - 로우레벨 데이터, 클러스터 내 서버에 분산된 데이터 지칭
+      - 레코드별로 존재, 구조화/비구조화 모두 지원
+    - Dataframe, Dataset
+      - RDD 위에 만들어지는 하이레벨 데이터
+        - RDD와 달리 필드 정보를 가짐
+      - Dataset은 타입 정보가 존재, 컴파일 언어에서 사용가능
+        - PySpark : Dataframe 사용
+  - RDD
+    - 변경이 불가능한 분산 저장된 데이터
+      - 다수의 파티션으로 구성, 클러스터 내 서버들에 나눠서 저장
+      - 로우레벨의 함수형 변환 지원
+    - 일반 파이썬 데이터는 parallelize 함수로 RDD 변환
+  - Dataframe
+    - 변경 불가능한 분산 저장 데이터
+    - RDD와는 다르게 관계형 DB 테이블처럼 컬럼으로 나눠서 저장
+      - Pandas DataFrame과 유사
+      - 다양한 데이터 소스 지원
+    - Scala, Java, Python, R 지원
+    - 생성
+      - RDD를 변환 : RDD .toDF 함수
+      - SQL 쿼리 기반으로 생성 : 
+      - 외부 데이터를 불러와서 생성 : createDataFrame
+  - Dataset
+    - RDD와 SparkSQL의 최적화 엔진
+    - 타입이 있는 컴파일 언어에서만 사용가능
+      - 자바와 스칼라만 가능
+
+## 6. 실습
+  - Colab + PySpark + py4j
+  - Spark Session 생성
+  - 파이썬 리스트를 RDD로 변환 : parallelize()
+    - Lazy Execution : 함수 실행 직후에는 실질적인 변환 X, 이후 변환한 데이터를 가지고 다른 작업을 수행할 때 데이터가 실제로 저장됨
