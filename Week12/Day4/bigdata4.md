@@ -1,0 +1,160 @@
+# [Week12 - Day4] Big Data 4 - Spark MLib
+
+## 1. 소개
+  - 머신러닝 관련 알고리즘, 유틸리티 라이브러리
+    - 분류, 회귀, 군집, CF, 차원축소 등
+    - 딥러닝 지원 아직 약함
+  - RDD 기반, Dataframe 기반 두 가지 존재
+    - spark.mllib vs spark.ml
+      - mllib (RDD 기반) <-> ml (데이터프레임 기반)
+      - mllib은 더 이상 업데이트 X
+  - 장점
+    - One-Stop ML 프레임워크
+      - 데이터프레임과 SparkSQL등 이용한 전처리
+      - MLlib 이용한 모델 빌딩
+      - ML Pipeline을 통한 모델 빌딩 자동화
+      - MLflow로 모델 관리 + 서빙
+    - 대용량 데이터 처리
+  - MLflow
+    - 모델 관리 + 서빙을 위한 Ops 기능 제공
+    - End-to-End 프레임워크
+    - 파이썬, 자바, R API 지원
+    - 트래킹, 모델, 프로젝트 지원
+  - 제공 알고리즘
+    - 분류, 회귀, 군집, 협업필터링(CF)
+
+## 2. 실습
+  - 모델 빌딩 기본구조
+    - 다른 라이브러리와 크게 다르지 않음
+      - 트레이닝셋 전처리
+      - 모델 빌딩
+      - 모델 검증
+    - sklearn 비교
+      - sklearn은 컴퓨터 한대
+      - MLlib은 분산 가능
+      - 전처리와 모델 빌딩에 큰 장점
+      - 파이프라인을 통한 개발의 반복 쉬움
+  - 보스턴 주택 가격 예측
+    - 연속적인 데이터 -> 회귀 사용
+  - 타이타닉 생존 예측
+    - 분류
+
+## 3. 보스턴 주택 가격 예측
+  - pyspark + py4j 설치
+  - SparkSession 생성
+  - 데이터 로드
+  - Feature Vector 생성
+    - `pyspark.ml.feature.VectorAssembler`
+    - `VectorAssembler.transform()` 으로 컬럼을 모아 새로운 컬럼 생성
+  - model 생성 및 학습
+    - `pyspark.ml.regression.LinearRegression` 사용
+    - `model.fit()`
+  - 성능 평가
+    - `pyspark.ml.evaluation`
+  - 예측
+
+## 4. 타이타닝 생존 예측
+  - pyspark + py4j 설치
+  - SparkSession 생성
+  - 데이터 로드
+  - 데이터 클린업
+    - 보스턴 보다 NULL 데이터가 많음, 필요 없는 컬럼도 존재
+    - `select()`로 필요한 컬럼만 선택
+    - `pyspark.ml.feature.Imputer`를 사용하여 NULL 데이터를 처리
+      - age 컬럼의 NULL 데이터를 평균값으로 채움
+    - `pyspark.ml.feature.StringIndexer`를 사용하여 카테고리형 데이터를 숫자형 데이터로 변경
+      - gender 컬럼(male, female) -> GenderIndexed(0.0, 1.0)
+  - Feature Vector 생성
+    - `VectorAssembler.transform()`
+  - 모델 생성 및 학습
+    - `pyspark.ml.classification.LogisticRegression` 사용
+  - 성능 평가
+    - `pyspark.ml.evaluation.BinaryClassificationEvaluator`
+
+## 5. Spark MLlib Feature 변환
+  - feature 추출과 변환
+    - feature 값을 모델 훈련에 적합한 형태로 변경
+    - Extractor와 Transformer
+      - Transformer
+        - 텍스트 필드 -> 숫자 필드
+        - 숫자 필드 값의 표준화
+        - 비어있는 필드의 데이터 채우기 (Imputer)
+      - Extractor
+        - 기존 feature에서 새로운 feature 추출
+        - TF-IDF, word2vec 등
+  - StringIndexer
+    - 텍스트 카테고리를 숫자형으로 변환
+    - `sklearn.preprocessing` 모듈 기반
+    - `pyspark.ml.feature` 모듈에 2가지 인코더 존재
+      - StringIndexer, OneHotEncoder
+    - Indexer 모델을 만들고 fit 적용 후 transform으로 변경
+  - Scaler
+    - 숫자 필드의 범위 표준화
+    - 숫자 필드의 범위를 특정 범위로 변환
+    - Feature Scaling or Normalization
+    - `sklearn.preprocessing` 모듈 기반
+    - `pyspark.ml.feature` 모듈에 2가지 스케일러 존재
+      - StandardScaler, MinMaxScaler
+    - Scaler 모델을 만들고 fit 적용후 transform으로 변경
+    - StandardScaler
+      - 정규분포화 -> 각 값에서 평균을 빼고 표준편차로 나눔
+    - MinMaxScaler
+      - 모든 값을 0~1 사이로 스케일링 -> 각 값에서 최소값을 빼로 (최대-최소)값으로 나눔
+  - Imputer
+    - 값이 없는 필드들에 값을 지정하여 채움
+    - `sklearn.preprocessing` 모듈 기반
+    - `pyspark.ml.feature` 모듈에 Imputer 존재
+    - Scaler 모델을 만들고 fit 적용후 transform으로 변경
+
+## 6. ML Pipeline
+  - 모델 빌딩과 관련된 흔한 문제
+    - 트레이닝 셋 관리 X
+    - 모델 훈련 방법 기록 X
+      - 트레이닝 셋
+      - 사용한 Feature
+      - 하이퍼파라미터
+    - 모델 훈련에 많은 시간 필요
+      - 자동화가 안된 경우 각 단계를 일일히 수행
+      - 에러 발생 확률이 높음 (특정 단계 수행 X, 다른 방식 사용)
+  - 파이프라인의 등장
+    - 자동화를 통해 에러 확률을 줄이고 빠른 반복을 가능하게 함
+  - ML Pipeline
+    - 데이터 과학자가 머신러닝 개발과 테스트를 쉽게 해주는 기능
+    - 데이터프레임 기반
+    - 알고리즘에 관계없이 일관된 형태의 API를 사용하여 모델링 가능
+    - 모델개발과 테스트의 반복수행 가능
+    - Transformer와 Estimator가 연결된 모델링 워크플로우
+    - 구성
+      - Dataframe
+        - 기본 데이터 포맷
+        - CSV, JSON, Parquet, JDBC 지원
+        - 파이프라인에서 새로운 소스 지원
+          - 이미지 데이터 소스
+            - jpeg, png
+          - LIBSVM
+            - label과 features 2가지 컬럼으로 구성된 머신러닝 트레이닝 셋
+      - Transformer
+        - 입력 데이터프레임을 다른 데이터프레임으로 변환
+        - 2가지 Transformer 존재, `transform()`이 메인 함수
+          - Feature Transformer
+            - 입력 데이터프레임의 컬럼으로부터 새로운 컬럼을 추가하여 새 데이터프레임으로 출력
+            - Imputer, StringIndexer, VectorAssembler 등
+          - Learning Model
+            - 머신러닝 모델
+            - feature 데이터프레임을 입력받아 예측값 컬럼을 추가한 데이터프레임으로 출력
+            - prediction, probability
+      - Estimator
+        - 머신러닝 알고리즘에 해당
+        - `fit()`이 메인 함수
+        - 트레이닝 셋을 입력받아 머신러닝 모델(Transformer)을 생성
+          - `LogisticRegression` -> Estimator
+          - `LogisticRegression.fit()` -> Transformer 생성
+        - ML Pipeline도 Estimator에 포함
+        - 세이브/로드 함수 제공
+      - Parameter
+        - Transformer와 Estimator의 공통 API -> 다양한 인자를 적용해줌
+        - 두 종류 존재
+          - Param -> 하나의 이름과 값
+          - ParamMap -> Param 리스트
+        - `fit()`, `transform()` 에 인자로 지정 가능
+  
