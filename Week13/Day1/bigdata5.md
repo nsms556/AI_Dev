@@ -1,0 +1,110 @@
+# [Week13 - Day1] Big Data 5 - ML Pipeline + Tuning
+
+## 1. Tuning
+  - 최적의 하이퍼 파라미터 선택
+    - 최적의 모델 or 모델의 파라미터 탐색이 중요
+    - 테스트 방법이 중요
+      - Cross Validation, Hold-out
+    - ML Pipeline과 같이 사용
+  - 모델 테스트
+    - CrossValidator
+    - TrainValidationSplit
+  - 가장 좋은 파라미터를 탐색
+    - CrossValidator, TrainValidationSplit
+    - Estimator, Evaluator, Parameter 입력을 기반으로 탐색
+    - 최종적으로 가장 결과가 좋은 모델 리턴
+  - Evaluator
+    - evaluate 함수 제공
+      - 테스트셋의 결과가 들어있는 데이터프레임과 파라미터 제공
+    - 알고리즘에 따라 다양한 종류 제공
+      - RegressionEvaluator
+      - BinaryClassificationEvaluator
+        - Area Under the Curve(AUC)를 성능 지표로 사용
+      - MulitclassClassificationEvaluator
+      - MultilabelClassificationEvaluator
+      - RankingEvaluator
+  - 모델 선택시 입력
+    - Estimator
+    - Evaluator
+    - Parameter Map
+      - ParamGrid
+
+## 2. 실습 - ML Pipeline 타이타닉
+  - 다양한 Transformer 사용
+    - Imputer, StringIndexer, VectorAssembler
+    - MinMaxScaler
+  - GBTClassifier, LogisticRegression 사용
+  - Cross Validation 사용
+    - BinaryClassificationEvaluator
+    - ParamGridBuilder
+    - ML Pipeline을 파라미터로 지정
+  - MinMaxScaler
+    - 벡터로 변환된 Feature Column에 적용
+  - ML Pipeline 절차
+    - 트레이닝 셋에 feature transformer 생성
+    - 사용하려는 Estimator 생성
+    - 순서대로 리스트에 추가
+      - Estimator가 마지막으로 추가되어야 함
+    - 해당 개체를 이용한 모델 빌딩
+      - Pipeline 개체의 fit 함수를 호출하면서 트레이닝 셋 데이터프레임 지정
+      - ML Tuning 개체로 지정해서 여러 하이퍼파라미터를 테스트하여 가장 좋은 모델 선택
+  - ML Tuning 절차
+    - 테스트하려는 머신러닝 알고리즘 개체 생성(Estimator, Pipeline)
+    - ParamGrid를 만들어 테스트하려는 하이퍼파라미터 지정
+    - CrossValidator, TrainValidationSplit 생성
+    - fit 함수 호출하여 최선 모델 선택
+
+## 3. PMML - 범용 머신러닝 모델 파일 포맷
+  - 다양한 머신러닝 개발 플랫폼들
+    - Scikit-Learn, PyTorch, TensorFlow
+    - Spark MLlib
+  - 모든 환경에서 통용되는 머신러닝 파일 포맷에 대한 의문
+  - PMML, MLeap의 등장
+    - 머신러닝 모델 서빙환경의 통일 가능
+    - 공통 포맷이 지원해주는 기능이 미약 -> 복잡한 모델의 지원불가
+  - PMML
+    - Predictive Model Markup Language
+    - ML 모델을 마크업 언어로 표현해주는 XML 언어
+      - 간단한 입력 데이터 전처리와 후처리 지원
+    - java 기반
+      - 많은 회사들이 모델 실행을 위해서 자바로 구현
+    - PySpark에서는 pyspark2pmml 사용
+      - 내부로는 jpmml-sparkml jar 사용
+      - 복잡함, 버전 의존도도 복잡
+  - 절차
+    - ML Pipeline을 PMML 파일로 저장
+      - pyspark2pmml 모듈 설치
+        - 자바 패키지 필요
+      - `pyspark2pmml.PMMLBuilder` 이용하여 ML Pipeline을 PMML 파일로 저장
+    - PMML 파일을 기반으로 모델 예측 API로 런칭
+      - Openscoring 프레임워크
+      - AWS SageMaker
+      - Flask + PyPMML
+    - API로 승객정보를 보내고 예측 결과를 받는 클라이언트 코드 작성
+
+## 4. 정리
+  - Spark는 분산 데이터 처리 프레임워크
+  - SparkSQL, MLlib, Streaming, GraphX
+  - Spark MLlib : Feature Transformer, ML Pipeline, ML Tuning
+  - 데이터가 매우 클때 필요한 기술
+    - 현재 시점에서 머신러닝 모델링은 PyTorch, TensorFlow 등으로 충분
+    - 데이터 전처리도 Python Pandas로 충분
+  - 데이터 팀의 발전
+    - 데이터 인프라 -> 데이터 분석 -> 데이터 과학 적용
+  - 데이터 과학자
+    - 머신러닝의 형태로 유저들의 경험을 개선
+      - 문제에 맞춰 가설을 세우고 데이터를 수집한 후에 예측 모델을 만들고 테스트
+    - 필요 기술
+      - 머신러닝/인공지능에 대한 깊은 지식
+      - 코딩
+      - 통계, 수학
+      - 끈기, 열정
+    - 훌륭한 데이터 과학자?
+  - 마지막으로
+    - 배움에 집중!
+      - 정체기를 잘 넘기기
+    - 자신감을 갖자!
+    - 인생도 애자일로!
+      - 어디든 시작한 후 배우면서 더 좋은곳으로
+    - 인턴 해보기
+    
