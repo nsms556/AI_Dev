@@ -1,0 +1,73 @@
+# [Kakao Arena - Melon] 6th Repository
+
+## 파일 구성
+  - Baseline
+    - arena_util.py 
+      - 카카오 제공 유틸
+    - evaluate.py
+      - 점수 채점
+    - split_data.py
+      - 모델 학습 및 성능 평가용 데이터 분할
+  - 6th
+    - MelonDataset.py
+      - 데이터셋 벡터화
+    - data_util.py
+      - 데이터 입출력 유틸
+    - Models.py
+      - AutoEncoder 클래스
+    - w2v.py
+      - Word2Vec 함수, 클래스
+    - train.py
+      - 모델 학습
+    - get_autoencoder_scores.py
+      - AutoEncoder 성능 평가
+    - get_w2v_scores.py
+      - Word2Vec 성능 평가
+    - recommender.py
+      - 추론을 위한 함수들
+    - inference.py
+      - 추론
+    - title_tokenizer.py
+      - SentencePiece 모듈을 통한 토큰화
+      - 사용안함
+
+## train.py
+  - `train(train_dataset, model_file_path, id2prep_song_file_path, id2tag_file_path, question_dataset, answer_file_path)`
+    - train_dataset : 학습데이터 -> MelonDataset.SongTagDataset 로 변환된 객체
+    - model_file_path : AutoEncoder 모델 파일 경로
+    - id2prep_song_file_path : 일정 빈도 이상 등장한 곡만 추출하여 저장한 파일 경로
+    - id2tag_file_path : AutoEncoder 모델의 Input으로 사용할 파일 경로
+    - question_dataset : 질문데이터 -> MelonDataset.SongTagDataset 로 변환된 객체
+    - answer_file_path : 질문에 대한 답 파일 경로
+
+### 과정
+  - argparse 통한 파라미터 파싱
+  - 모드에 따른 파일 경로, 데이터 지정
+    - 0 : local_val
+    - 1 : val
+    - 2 : test
+  - AutoEncoder에서 사용할 파일 생성
+    - arena_data/tag2id_local_val.npy
+    - arena_data/id2tag_local_val.npy
+    - arena_data/freq_song2id_thr2_local_val.npy
+    - arena_data/id2freq_song_thr2_local_val.npy
+  - train_data, question_data 변환하여 SongTagDataset 객체로 각각 생성
+    - train_dataset, question_dataset
+  - AutoEncoder 모델 파일 경로 지정
+  - train (AutoEncoder)
+    - Torch Device 지정
+    - AutoEncoder 모델의 입력 데이터 로드
+    - 파라미터 지정
+    - DataLoader, AutoEncoder 모델 생성
+    - optimizer 생성
+      - loss : BCELoss
+      - optimizer : Adam
+    - 기존 모델이 있는 경우 로드
+    - 중간 점검용 파일 삭제
+    - 반복
+      - 학습
+      - loss 출력
+      - 모델 중간 저장
+      - mode = 0 인 경우 중간 평가
+  - w2v 학습
+    - vocabulary size : 24000
