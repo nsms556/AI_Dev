@@ -71,3 +71,94 @@
       - mode = 0 인 경우 중간 평가
   - w2v 학습
     - vocabulary size : 24000
+    - method : bpe
+    - 파일 경로 지정
+    - 파일 불러오기
+    - train_tokenizer_w2v
+
+## inference.py
+### 과정
+  - argparse 통한 파라미터 파싱
+  - 모드 파라미터에 따른 사용할 파일 경로 지정 및 로드
+  - AutoEncoder를 사용한 플레이리스트 벡터 유사도 계산
+    - train Vector - Valid Vector 간 유사도 계산하여 파일로 저장
+    - Cosine Similarity
+  - Word2vec를 사용한 플레이리스트 벡터 유사도 계산
+    - train Vector - Valid Vector 간 유사도 계산하여 파일로 저장
+    - Cosine Similarity
+  - 곡 전체 메타정보, 추천할 곡 리스트 로드 하여 Recommender 클래스로 넘겨주기
+
+## recommender.py
+### 과정
+  - 전처리
+    - 추천 결과가 부족한 경우를 위해 인기곡, 인기 태그 리스트 생성
+      - song_mp, tag_mp
+    - 접근 시간 단축을 위한 dict 생성
+    - 미리 계산한 벡터간 유사도가 저장된 파일 로드
+      - 곡 제목+태그 AutoEncoder 벡터 유사도 -> sim_scores
+      - 곡 제목+태그+장르 AutoEncoder 벡터 유사도 -> gnr_scores
+      - 곡 제목+태그+장르+날짜 Word2vec 벡터 유사도 -> title_scores
+  - 추론
+    - 질문 플레이리스트 정보 불러오기
+      - 플레이리스트에 담긴 곡들, 태그
+      - 곡, 태그가 없거나 적은 경우에 대해 변수로 저장
+    - Counter를 통해 빈도수 카운트
+      - song -> plylst
+      - song -> tag
+      - tag -> plylst
+    - 점수 계산
+      - 곡, 태그가 없는 경우
+        - Word2vec 벡터 유사도(title_scores)가 가장 높은 아이템(플레이리스트 + 유사도) n_msp(plylst_ms), n_mtp(plylst_mt)개 추출
+        - 보정 데이터로 sim_scores에서 n_mtp개를 추출(plylst_add)
+      - 곡, 태그가 적은 경우
+        - plylst_ms : 제목+태그 AutoEncoder 벡터 유사도(sim_scores)가 가장 높은 아이템(플레이리스트 + 유사도) n_msp 개 추출
+        - plylst_mt : Word2vec 벡터 유사도(title_scores)가 가장 높은 아이템(플레이리스트 + 유사도) n_mtp개 추출
+        - 보정 데이터로 gnr_scores(제목+태그+장르 AutoEncoder 벡터 유사도)에서 n_mtp개 추출(plylst_add)
+      - 충분한 경우
+        - plylst_ms : sim_scores에서 n_msp개 추출
+        - plylst_mt : gnr_scores에서 n_mtp개 추출
+        - 보정 데이터로 title_scores에서 n_mtp개 추출
+      - plylst_ms의 전체 곡들에 대해 플레이리스트 id를 value로 갖는 dict 생성
+      - plylst_song_scores 계산
+        - song_score = $\Sigma$ (q_s와 song이 전부 포함된 플레이리스트의 개수 / q_s가 포함되어 있는 플레이리스트의 개수) 
+        - song을 key - song이 담긴 플레이리스트(ms_p)의 빈도수 * song_score * ms_p의 song_scores 유사도 점수 * (n_msp - ms_p의 순서(idx)) 를 value로 갖는 dict 생성
+          - song이 freq_song에 포함된 경우 value를 4배
+      - plylst_tag_scores 계산
+        - mt_p의 각 태그를 key - mt_p의 tag_scores 유사도 점수 * (n_mtp - mt_p의 순서(idx))를 value 로 갖는 dict 생성
+        - mt_p의 tag_scores 유사도 점수들을 plylst_song_scores에 합산
+      - 보정 데이터(plylst_add)를 사용하여 plylst_tag_scores에 보정 점수(add_scores[idx]) * (n_mtp - idx) 를 합산
+    - 질문 곡, 태그가 없는 경우
+      - title_scores 기반으로 100곡을 추출하여 질문 곡으로 사용
+      - title_scores 기반으로 태그 10개를 추출하여 질문 태그로 사용
+    - 추천
+      - 곡
+        - 질문 곡이 있을 때
+          - 곡의 아티스트 빈도수 계산(counter_artist)하여 정렬
+          - 빈도수가 2 이상인 아티스트만 따로 추출(artist)
+            - 질문 곡, 태그가 적은 경우엔 빈도수 필터 X
+          - plylst_song_scores에서 맨 앞의 곡들만 추출
+            - 추출 후 [(100 - len(artist)):1000]로 슬라이싱(cand_ms)
+          - 추출한 곡들에 대해
+            - 곡의 아티스트가 artist에 포함된 경우 lt_song_art에 곡을 추가
+            - artist에서 해당 아티스트 제거
+            - artist 가 비어있거나 곡이 질문 곡에 포함된 경우 중단
+          - plylst_song_scores의 상위 200개에서 곡만 추출(song_ms)
+        - 질문 태그만 있는 경우
+          - tag -> song 카운터를 기반으로 200곡 추출
+      - 태그
+        - plylst_tag_scores를 점수 기준으로 정렬하여 상위 20개 추출(tag_ms)
+      - 날짜 지난 곡들 제거
+      - 중복 제거 + 부족분 보충
+        - song_ms, tag_ms에 song_mp, tag_mp를 더하여 새로운 리스트 생성(song_candidate, tag_candidate)
+        - 질문 곡, 태그가 없는 경우
+          - song_candidate에서 100개 슬라이싱
+        - 있는 경우
+          - 질문 곡들을 제외후 100개 슬라이싱
+        - lt_song_art가 있는 경우
+          - song_candidate에 포함된 곡들을 제거 후 song_cadidate의 뒤쪽을 lt_song_art로 교체
+      - rec_list 생성
+        - 'id' : 질문 id
+        - 'songs' : song_candidate
+        - 'tags' : tag_candidate에서 질문 태그 제외 후 10개 슬라이싱
+      - results.json으로 저장
+    - rec_list 리턴
