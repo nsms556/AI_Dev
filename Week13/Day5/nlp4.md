@@ -95,6 +95,17 @@
       - ![image](image/4.png)
       - 분모의 계산량이 많음 -> $|V|d$에 비례
     - 해결책
-        - Noise-Constrastive Estimation : 분모를 하나의 파라미터로 학습 -> 이진 분류문제에 해당하느 새로운 목표함수 최적화 -> 파라미터들이 원래 우도의 최적해 근사
+        - Noise-Constrastive Estimation : 분모를 하나의 파라미터로 학습 -> 이진 분류문제에 해당하는 새로운 목표함수 최적화 -> 파라미터들이 원래 우도의 최적해 근사
         - 더 단순화 하면 Negative Sampling이 됨
         - Word2vec은 Negative Sampling 사용
+    - Negative Sampling
+      - ![image](image/5.png)
+      - 신경망 구조 변화 X
+      - Normalization constant 계산 필요 X
+      - Gradient 계산 단순화
+  - 요약
+    - |V|개의 d차원 임베딩을 랜덤학 초기화
+    - 주변 단어들의 쌍을 positive example로 생성
+    - 빈도수에 의해 추출된 단어 쌍을 negative example로 생성
+    - 위 데이터들을 사용해 분류기 학습
+    - 학습된 임베딩 w -> 결과
