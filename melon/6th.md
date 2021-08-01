@@ -87,6 +87,15 @@
     - train Vector - Valid Vector 간 유사도 계산하여 파일로 저장
     - Cosine Similarity
   - 곡 전체 메타정보, 추천할 곡 리스트 로드 하여 Recommender 클래스로 넘겨주기
+    - train_data : 학습 데이터
+    - question_data : 질문 데이터
+    - n_msp
+    - n_mtp 
+    - model_postfix
+    - sim_measure : 유사도 계산 방법
+    - song_meta : 곡 메타 정보 파일
+    - freq_song : 빈도 수 필터를 적용한 곡 리스트
+    - save : 결과 파일 저장 여부
 
 ## recommender.py
 ### 과정
