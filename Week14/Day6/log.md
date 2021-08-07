@@ -36,3 +36,11 @@
     - ![image](image/wgan_term_loss.png)
     - ![image](image/wgan_term_display.png)
   - DCGAN으로 한번 더 해보기
+
+## 피드백
+  - Data Augmentation
+    - 이미지 회전 같은 경우에는 오히려 성능을 떨어뜨릴수 있음
+  - 이미지 노이즈
+    - FID 계산 때 노이즈가 있으면 성능이 떨어짐
+  - ResNet을 얹는다면 위치?
+    - DCGAN
