@@ -23,3 +23,28 @@ def solution(k, room_number):
         answer.append(empty)
 
     return answer
+<<<<<<< HEAD
+=======
+
+k = 6
+room = [1,3,4,1,3,1]
+
+print(solution(k, room))
+
+'''
+1   1
+    1->2
+3   1 3
+    1->2 3->4
+4   1 3 4
+    1->2 3->4->5
+1   1 2 3 4
+    1->2->3 3->4->5
+3   1 2 3 4 5
+    1->2->6 3->4->5->6
+1   1 2 3 4 5 6
+    1->2->6->7 3->4->5->7
+
+
+'''
+>>>>>>> cca1dd38236b90eadf7ec977ff2ff3d2f460e9e8
