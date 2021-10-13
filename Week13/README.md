@@ -4,7 +4,7 @@
 
 ### Day1 - Spark IV
   - [ML Pipeline + Tuning](https://github.com/nsms556/AI_Dev/blob/main/Week13/Day1/bigdata5.md)
-  - [실습](https://github.com/nsms556/AI_Dev/blob/main/Week13/Day1/PySpark_%EA%B8%B0%EB%B3%B8_5%EC%9D%BC%EC%B0%A8_1.ipynb)
+  - [타이타닉 생존 예측 모델 (실습)](https://github.com/nsms556/AI_Dev/blob/main/Week13/Day1/PySpark_%EA%B8%B0%EB%B3%B8_5%EC%9D%BC%EC%B0%A8_1.ipynb)
 
 ### Day2 - NLP : 텍스트 전처리
   - [텍스트 전처리](https://github.com/nsms556/AI_Dev/blob/main/Week13/Day2/nlp1.md)
