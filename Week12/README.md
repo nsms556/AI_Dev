@@ -22,5 +22,9 @@
   - [Online Session](https://github.com/nsms556/AI_Dev/blob/main/Week12/Day4/session.md)
 
 ### Day5 - Mission
-  - [Mission Log]()
-  - [Jupyter Notebook]()
+  - [Mission Log](https://github.com/nsms556/AI_Dev/blob/main/Week12/Day5/mission.md)
+  - [Jupyter Notebook](https://github.com/nsms556/AI_Dev/blob/main/Week12/Day5/PySpark_%ED%83%80%EC%9D%B4%EB%B2%A0%EC%9D%B4%EC%8B%9C_%EC%A3%BC%ED%83%9D%EA%B0%80%EA%B2%A9_%EC%98%88%EC%B8%A1.ipynb)
+
+### Day6 - Monthly Project 3
+  - [Mission ipynb](https://github.com/nsms556/AI_Dev/blob/main/Week12/Day6/Monthly_Project_CNN_Classification.ipynb)
+  - [Mission Log](https://github.com/nsms556/AI_Dev/blob/main/Week12/Day6/log.md)

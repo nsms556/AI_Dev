@@ -23,3 +23,10 @@
 - 10주차 : [CNN & RNN](https://github.com/nsms556/AI_Dev/tree/main/Week10)
 - 11주차 : [SQL과 데이터분석](https://github.com/nsms556/AI_Dev/tree/main/Week11)
 - 12주차 : [Spark](https://github.com/nsms556/AI_Dev/tree/main/Week12)
+- 13주차 : [Spark II, NLP](https://github.com/nsms556/AI_Dev/tree/main/Week13)
+- 14주차 : [NLP II, Visual Recognition](https://github.com/nsms556/AI_Dev/tree/main/Week14)
+- 15주차 : [Visual Recognition II, GAN](https://github.com/nsms556/AI_Dev/tree/main/Week15)
+- 16주차 : [추천시스템 구현](https://github.com/nsms556/AI_Dev/tree/main/Week16)
+- 17~20주차 : 최종 프로젝트
+  - [최종 프로젝트](https://github.com/nsms556/AI_Dev/tree/main/Final)
+  - [Week18 Session](https://github.com/nsms556/AI_Dev/blob/main/Week18/session.md)
